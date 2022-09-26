@@ -15,6 +15,7 @@ plot_gene_map <- function(dna_segs,
                           tree_scale=FALSE, # plot tree scale?
                           legend=NULL, # unimplemented
                           annotations=NULL,
+                          top_annotation_banner=0,
                           annotation_height=1, # height of annot line
                           annotation_cex=0.8, # size of annotations
                           seg_plots=NULL,    # user-defined plots
@@ -254,6 +255,7 @@ plot_gene_map <- function(dna_segs,
   h <- rep(1, n_rows)
   h[seq(2, n_rows, by=3)] <- 1 + scale_cex*dna_seg_scale + annot_h
   h[seq(1, n_rows, by=3)] <- seg_plot_h
+  h[1] <- h[1] + top_annotation_banner
   dna_seg_heights <- unit(h, c(rep(c(seg_plot_height_unit, "lines", "null"),
                                    n_dna_segs), "lines"))
   
@@ -623,8 +625,8 @@ plot_gene_map <- function(dna_segs,
   # and 1 to center to the middle of each dna_seg (1/2 line top and bottom)
   if (!is.null(tree_grob)){
     # extra margin if there is an annotation in the first dna_seg
-    annot_margin <- unit(if (is.null(annotations[[1]])) 0 else
-                         annotation_height, "lines")
+    annot_margin <- unit(if (is.null(annotations[[1]])) 0 + top_annotation_banner else
+                         annotation_height + top_annotation_banner, "lines")
     # extra margin is there is a seg_plot in the first dna_seg
     seg_plot_margin <- unit(if (is.null(seg_plot_grobs[[1]][[1]])) 0 else
                             seg_plot_height, seg_plot_height_unit)
